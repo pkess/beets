@@ -377,19 +377,22 @@ def input_select_items(prompt, items, rep):
          function is responsive for newline at input
     """
     out_items = []
-    choice = input_options(
-        ('y', 'n', 's'), False,
-        '%s? (Yes/no/select)' % prompt)
-    print()
-    if choice == 'y':
-        out_items = items
-    elif choice == 's':
-        for item in items:
-            rep(item)
-            if input_yn('%s? (yes/no)' % prompt, True):
-                out_items.append(item)
-            print()
-    return out_items
+    try:
+        choice = input_options(
+            ('y', 'n', 's'), False,
+            '%s? (Yes/no/select)' % prompt)
+        print()
+        if choice == 'y':
+            out_items = items
+        elif choice == 's':
+            for item in items:
+                rep(item)
+                if input_yn('%s? (yes/no)' % prompt, True):
+                    out_items.append(item)
+                print()
+        return out_items
+    except KeyboardInterrupt:
+        return []
 
 
 # Human output formatting.
